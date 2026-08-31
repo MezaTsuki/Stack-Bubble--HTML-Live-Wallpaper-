@@ -1,0 +1,43 @@
+
+html{
+    font-family: "quicksand";
+}
+body{
+    margin: 0;
+    overflow: hidden;
+
+    --baseUnit: 1vw
+}
+
+.circle{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transform-origin: center;
+
+    height: calc((var(--baseUnit) * 18) * var(--layer));
+    width: calc((var(--baseUnit) * 18) * var(--layer));
+    border-radius: 50%; 
+    
+    transition: 
+        left 0.05s,
+        top 0.05s,
+        opacity 1s
+    ;
+}
+@keyframes bounce{
+    0% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); }
+    20% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.08); }
+    40% { transform: translate(-50%, -50%)  rotate(45deg) scale(0.94); }
+    60% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.04); }
+    80% { transform: translate(-50%, -50%)  rotate(45deg) scale(0.98); }
+    100% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); }
+}
+
+@font-face{
+    font-family: 'quicksand';
+    src: url("Quicksand.ttf");
+}
+@media (max-width: 1000px){
+
+}

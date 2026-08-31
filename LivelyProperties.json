@@ -1,0 +1,68 @@
+{
+    "darkMode": {
+        "text": "Dark Mode",
+        "type": "checkbox",
+        "value": false
+    },
+    "shape": {
+        "text": "Shape",
+        "type": "dropdown",
+        "items": ["Circle", "Diamond(Round)", "Diamond(Sharp)"],
+        "value": 0
+    },
+    "colorMode": {
+        "text": "Color Mode",
+        "type": "dropdown",
+        "items": ["Single", "Palette"],
+        "value": 0
+    },
+    "opacity": {
+        "text": "Opacity",
+        "type": "slider",
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "value": 1
+    },
+    "blendMode": {
+        "text": "Blend Mode",
+        "type": "dropdown",
+        "items": [
+            "Normal", "Multiply", "Screen", "Overlay", 
+            "Darken", 
+            "Lighten", 
+            "Color-Dodge", 
+            "Color-Burn", 
+            "Hard-Light", 
+            "Soft-Light", 
+            "Difference", 
+            "Exclusion"
+        ],
+        "value": 0
+    },
+    "singleColor": {
+        "text": "Single - Color",
+        "type": "color",
+        "value": "#2a9c5da4"
+    },
+    "palette1": {
+        "text": "Palette - Color 1",
+        "type": "color",
+        "value": "#4deaff"
+    },
+    "palette2": {
+        "text": "Palette - Color 2",
+        "type": "color",
+        "value": "#ff4dca"
+    },
+    "palette3": {
+        "text": "Palette - Color 3",
+        "type": "color",
+        "value": "#9cecf7"
+    },
+    "palette4": {
+        "text": "Palette - Color 4",
+        "type": "color",
+        "value": "#ff9fe2"
+    }
+}
