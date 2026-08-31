@@ -48,12 +48,12 @@
     "palette1": {
         "text": "Palette - Color 1",
         "type": "color",
-        "value": "#4deaff"
+        "value": "#000000"
     },
     "palette2": {
         "text": "Palette - Color 2",
         "type": "color",
-        "value": "#ff4dca"
+        "value": "#ffffff"
     },
     "palette3": {
         "text": "Palette - Color 3",

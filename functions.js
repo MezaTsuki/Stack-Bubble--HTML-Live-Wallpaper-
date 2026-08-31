@@ -18,7 +18,8 @@ function livelyPropertyListener(name, value) {
     switch (name) {
 
         case"darkMode":
-            if (value) { body.style.background = "black"; } else { body.style.background = "white"; }
+            if (value) { document.body.style.background = "black"; } 
+            else { document.body.style.background = "white"; }
             break;
         case"shape": 
             shapeConfig(value);
@@ -28,6 +29,9 @@ function livelyPropertyListener(name, value) {
             break;
         case"opacity":
             opacity = value; colorConfig();
+            break;
+        case"blendMode":
+            blendConfig(value);
             break;
         case"singleColor":
             single = value; colorConfig();
@@ -44,16 +48,16 @@ function livelyPropertyListener(name, value) {
 }
 
 function colorConfig() {
-    let i = 0;
+    let i = -1;
     mainClass.forEach(el => {
         i++;
         switch(colorMode){
             case 1:  //! _ Palette
                 el.style.opacity = `${opacity}`;
-                el.style.background = `${pall[i-1]}`;
+                el.style.background = `${pall[i]}`;
                 break;
             case 0: //! _ Single
-                const finalOpacity = Math.max(opacity - (1 - (i * 0.25)), 0);
+                const finalOpacity = Math.max(opacity - (i * 0.25), 0);
                 el.style.opacity = `${finalOpacity}`;
                 el.style.background = `${single}`;
                 break;
