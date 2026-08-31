@@ -10,9 +10,9 @@ function opacityToHex(opacity) {
   return int.toString(16).padStart(2, '0');
 }
 //# __ LIVELY CONFIG __
-let pall = ["#4deaff", "#ff4dca", "#9cecf7", "#ff9fe2"];
+let pall = ["#000000", "#ffffff", "#9cecf7", "#ff9fe2"];
 let single = "#271010"
-let colorMode = 0; let opacity = 1;
+let colorMode = 1; let opacity = 1;
 colorConfig();
 function livelyPropertyListener(name, value) {
     switch (name) {
