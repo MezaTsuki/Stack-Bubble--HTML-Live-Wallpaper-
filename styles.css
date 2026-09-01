@@ -1,7 +1,10 @@
 
-html{
-    font-family: "quicksand";
+html, body, .bgImage, .circle {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
+
 body{
     margin: 0;
     overflow: hidden;
@@ -31,6 +34,8 @@ body{
     position: absolute;
     height: 100%; width: 100%;
     visibility: hidden;
+
+    -webkit-user-drag: none;
 }
 
 @keyframes bounce{

@@ -41,7 +41,7 @@ document.addEventListener("mousemove", e => {
             let newPosX = bodyCenterX + ((mousePosX - bodyCenterX) * layerDeg);
             el.style.top = `${newPosY}px`;
             el.style.left = `${newPosX}px`;
-        }, (layer * 20))
+        }, (layer * 30))
     });
 
     //! for animation /\/\/\/\/
