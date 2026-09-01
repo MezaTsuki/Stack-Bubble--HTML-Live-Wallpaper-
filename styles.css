@@ -6,7 +6,7 @@ body{
     margin: 0;
     overflow: hidden;
 
-    --baseUnit: 1vw
+    --baseUnit: 18vw
 }
 
 .circle{
@@ -16,8 +16,8 @@ body{
     transform-origin: center;
     background: #271010;
 
-    height: calc((var(--baseUnit) * 18) * var(--layer));
-    width: calc((var(--baseUnit) * 18) * var(--layer));
+    height: calc(var(--baseUnit) * var(--layer));
+    width: calc(var(--baseUnit) * var(--layer));
     border-radius: 50%; 
     
     transition: 
