@@ -8,6 +8,7 @@ function opacityToHex(opacity) {
 let pall = ["#000000", "#ffffff", "#9cecf7", "#ff9fe2"];
 let single = "#271010"
 let colorMode = 0; let fillMode = 0; let opacity = 1; 
+let imageFit = 0;
 colorConfig();
 function livelyPropertyListener(name, value) {
     switch (name) {
@@ -45,6 +46,34 @@ function livelyPropertyListener(name, value) {
             pall[2] = value; colorConfig(); break; 
         case"palette4":
             pall[3] = value; colorConfig(); break; 
+        case"bgImageToggle":
+            bgImage.style.visibility = value ? "visible" : "hidden";
+            break;
+        case"bgImage":
+            bgImage.src = value;
+            break;
+        case"imageFit":
+            imageFitConfig(value);
+            break;
+        case"imagePosition":
+            bgImage.style.objectPosition = value.toLowerCase();
+            break;
+        default: break;
+    }
+}
+
+function imageFitConfig (mode) {
+    switch(mode) {
+        case 0: //! Contain
+            bgImage.style.objectFit = "contain"; break;
+        case 1: //! Cover
+            bgImage.style.objectFit = "cover"; break;
+        case 2: //! Fill
+            bgImage.style.objectFit = "fill"; break;
+        case 3: //! Scale-Down
+            bgImage.style.objectFit = "scale-down"; break;
+        case 4: //! None
+            bgImage.style.objectFit = "none"; break;
     }
 }
 

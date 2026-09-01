@@ -26,6 +26,13 @@ body{
         opacity 1s
     ;
 }
+
+.bgImage{
+    position: absolute;
+    height: 100%; width: 100%;
+    visibility: hidden;
+}
+
 @keyframes bounce{
     0% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); }
     20% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.08); }

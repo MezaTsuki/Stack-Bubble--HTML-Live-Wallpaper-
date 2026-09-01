@@ -2,12 +2,15 @@
 const obj = document.getElementById("a");
 let objStyle = getComputedStyle(obj);
 let body = getComputedStyle(document.body);
+let bgImage = document.querySelector(".bgImage");
 
 const mainClass = document.querySelectorAll(".circle");
 
+let fileHeight = bgImage.naturalHeight;
+let fileWidth = bgImage.naturalWidth
 
-let screenHeight = body.height;
-let screenWidth = body.width;
+let screenHeight = body.innerHeight;
+let screenWidth = body.innerWidth;
 
 //? Animation Mouse-Delay Detection
 let mouseX; let locatorX = 1;
@@ -28,7 +31,6 @@ document.addEventListener("mousemove", e => {
         
         let circle = getComputedStyle(el);
         let layer = parseFloat(circle.getPropertyValue('--layer')) - 1;
-        let baseUnit = parseFloat(body.getPropertyValue('--baseUnit'));
 
         // let centerY = parseFloat(circle.height);
         // let centerX = parseFloat(circle.width);
@@ -39,7 +41,7 @@ document.addEventListener("mousemove", e => {
             let newPosX = bodyCenterX + ((mousePosX - bodyCenterX) * layerDeg);
             el.style.top = `${newPosY}px`;
             el.style.left = `${newPosX}px`;
-        }, (layer * 40))
+        }, (layer * 20))
     });
 
     //! for animation /\/\/\/\/

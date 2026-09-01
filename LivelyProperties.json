@@ -78,5 +78,29 @@
         "text": "Palette - Color 4",
         "type": "color",
         "value": "#ff9fe2"
+    },
+    "bgImageToggle": {
+        "text": "Image Background:",
+        "type": "checkbox",
+        "value": false
+    },
+    "imageFit": {
+        "text": "Fitting Mode",
+        "type": "dropdown",
+        "items": ["Contain", "Cover", "Fill", "Scale-Down", "None"],
+        "value": 0
+    },
+    "bgImage": {
+        "text": "Browse Image:",
+        "type": "folderDropdown",
+        "filter": "*.jpg|*.png",
+        "folder": "background",
+        "subfolders": true,
+        "value": ""
+    },
+    "imagePosition": {
+        "text": "Image Position [center, top, left, right, bottom] [50% 50%]",
+        "type": "textbox",
+        "value": "center"
     }
 }
