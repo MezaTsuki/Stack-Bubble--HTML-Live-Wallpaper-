@@ -45,14 +45,14 @@ document.addEventListener("mousemove", e => {
     });
 
     //! for animation /\/\/\/\/
-    locatorX = mouseX;
-    locatorY = mouseY;
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+
 
     if (play) return;
     play = setInterval(() => {
-
+        locatorX = mouseX;
+        locatorY = mouseY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         if ((Math.abs(locatorX - mouseX) < 2) && (Math.abs(locatorY - mouseY) < 2)) {
             elapsedStop += 50;
             if (elapsedStop >= 500) {

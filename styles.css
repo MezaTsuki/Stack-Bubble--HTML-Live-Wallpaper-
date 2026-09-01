@@ -39,12 +39,12 @@ body{
 }
 
 @keyframes bounce{
-    0% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); }
-    20% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.08); }
-    40% { transform: translate(-50%, -50%)  rotate(45deg) scale(0.94); }
-    60% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.04); }
-    80% { transform: translate(-50%, -50%)  rotate(45deg) scale(0.98); }
-    100% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); }
+    0% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); border-width: 1px; }
+    15% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.08); border-width: 14px; }
+    30% { transform: translate(-50%, -50%)  rotate(45deg) scale(0.94); border-width: 2px; }
+    50% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.04); border-width: 10px; }
+    75% { transform: translate(-50%, -50%)  rotate(45deg) scale(0.98); border-width: 3px; }
+    100% { transform: translate(-50%, -50%)  rotate(45deg) scale(1.0); border-width: 5px; }
 }
 
 @font-face{
