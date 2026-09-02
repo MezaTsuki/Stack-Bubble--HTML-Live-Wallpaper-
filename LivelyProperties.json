@@ -1,14 +1,22 @@
 {
-    "darkMode": {
-        "text": "Dark Mode",
-        "type": "checkbox",
-        "value": false
-    },
     "shape": {
         "text": "Shape",
         "type": "dropdown",
         "items": ["Circle", "Diamond(Round)", "Diamond(Sharp)"],
         "value": 0
+    },
+    "animation": {
+        "text": "Animation",
+        "type": "dropdown",
+        "items": [
+            "none", 
+            "bounce", 
+            "random-tilt", 
+            "focus", 
+            "retribution-vertical",
+            "retribution-horizontal"
+        ],
+        "value": 1
     },
     "size": {
         "text": "Size",
@@ -18,24 +26,32 @@
         "step": 0.2,
         "value": 18
     },
-    "fillMode": {
-        "text": "Fill Mode",
-        "type": "dropdown",
-        "items": ["Fill", "Border"],
-        "value": 0
-    },
-    "colorMode": {
-        "text": "Color Mode",
-        "type": "dropdown",
-        "items": ["Single", "Palette"],
-        "value": 1
-    },
     "opacity": {
         "text": "Opacity",
         "type": "slider",
         "min": 0,
         "max": 1,
         "step": 0.01,
+        "value": 1
+    },
+    "fillMode": {
+        "text": "Fill Mode",
+        "type": "dropdown",
+        "items": ["Fill", "Border"],
+        "value": 0
+    },
+    "borderWidth": {
+        "text": "Border Width",
+        "type": "slider",
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "value": 5
+    },
+    "colorMode": {
+        "text": "Color Mode",
+        "type": "dropdown",
+        "items": ["Single", "Palette"],
         "value": 1
     },
     "blendMode": {
@@ -79,8 +95,13 @@
         "type": "color",
         "value": "#ff9fe2"
     },
-    "bgImageToggle": {
-        "text": "Image Background:",
+    "darkMode": {
+        "text": "Dark Mode",
+        "type": "checkbox",
+        "value": false
+    },
+    "graphicBGToggle": {
+        "text": "Image/Video Background:",
         "type": "checkbox",
         "value": false
     },
@@ -90,16 +111,16 @@
         "items": ["Contain", "Cover", "Fill", "Scale-Down", "None"],
         "value": 0
     },
-    "bgImage": {
-        "text": "Browse Image:",
+    "graphicBG": {
+        "text": "Browse Image/Video:",
         "type": "folderDropdown",
-        "filter": "*.jpg|*.png",
+        "filter": "*.jpg|*.jpeg|*.png|*.webp|*.avif|*.gif|*.mp4|*.webm|*.ogg",
         "folder": "background",
         "subfolders": true,
         "value": ""
     },
     "imagePosition": {
-        "text": "Image Position [center, top, left, right, bottom] [50% 50%]",
+        "text": "Image/Video Position [center, top, left, right, bottom] [50% 50%]",
         "type": "textbox",
         "value": "center"
     }

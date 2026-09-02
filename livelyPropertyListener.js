@@ -3,25 +3,41 @@ function opacityToHex(opacity) {
   const int = Math.round(opacity * 255);
   return int.toString(16).padStart(2, '0');
 }
+function getFileType(path) {
+    const ext = path.split('.').pop().toLowerCase();
+    
+    if (['mp4', 'webm', 'ogg'].includes(ext)) return 'video';
+    if (['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif'].includes(ext)) return 'image';
+    return 'unknown';
+}
 
 //# __ LIVELY CONFIG __
 let pall = ["#000000", "#ffffff", "#9cecf7", "#ff9fe2"];
-let single = "#271010"
-let colorMode = 0; let fillMode = 0; let opacity = 1; 
+let single = "#fc7e7e"
+let colorMode = 0; let fillMode = 1; let opacity = 1; 
+
 let imageFit = 0;
-colorConfig();
+let graphicBGToggle = false;
+let graphicBG = 'background/75833.webm';
+let graphicBGType = "image";
+
+let borderWidth = 5;
+
+colorConfig(); 
 function livelyPropertyListener(name, value) {
     switch (name) {
 
-        case"darkMode":
-            if (value) { document.body.style.background = "black"; } 
-            else { document.body.style.background = "white"; }
+        case"shape": 
+            shapeConfig(value);
+            break;
+        case"animation": 
+            activeAnim = value;
             break;
         case"size": 
             sizeConfig(value);
             break;
-        case"shape": 
-            shapeConfig(value);
+        case"opacity":
+            opacity = value; colorConfig();
             break;
         case"colorMode":
             colorMode = value; colorConfig();
@@ -29,8 +45,9 @@ function livelyPropertyListener(name, value) {
         case"fillMode":
             fillMode = value; colorConfig();
             break;
-        case"opacity":
-            opacity = value; colorConfig();
+        case"borderWidth":
+            borderWidth = value;
+            colorConfig();
             break;
         case"blendMode":
             blendConfig(value);
@@ -46,40 +63,77 @@ function livelyPropertyListener(name, value) {
             pall[2] = value; colorConfig(); break; 
         case"palette4":
             pall[3] = value; colorConfig(); break; 
-        case"bgImageToggle":
-            bgImage.style.visibility = value ? "visible" : "hidden";
+        case"darkMode":
+            if (value) { document.body.style.background = "black"; } 
+            else { document.body.style.background = "white"; }
             break;
-        case"bgImage":
-            bgImage.src = value;
+        case"graphicBGToggle":``
+            graphicBGToggle = value ? true : false;
+            graphicBGConfig();
+            break;
+        case"graphicBG":
+            graphicBGType = getFileType(value);
+            graphicBG = value;
+            graphicBGConfig();
             break;
         case"imageFit":
             imageFitConfig(value);
             break;
         case"imagePosition":
             bgImage.style.objectPosition = value.toLowerCase();
+            bgVideo.style.objectPosition = value.toLowerCase();
             break;
         default: break;
+    }
+}
+
+function graphicBGConfig() {
+    if (!graphicBGToggle || !graphicBG) {
+        bgImage.style.visibility = "hidden";
+        bgVideo.style.visibility = "hidden";
+        return;
+    }
+
+    if(graphicBGType == "image"){
+        bgImage.src = graphicBG;
+        bgVideo.src = "";
+        bgImage.style.visibility = graphicBGToggle ? "visible" : "hidden";
+        bgVideo.style.visibility = "hidden";
+    }
+    if(graphicBGType == "video"){
+        bgImage.src = "";
+        bgVideo.src = graphicBG;
+        bgImage.style.visibility = "hidden";
+        bgVideo.style.visibility = graphicBGToggle ? "visible" : "hidden";
     }
 }
 
 function imageFitConfig (mode) {
     switch(mode) {
         case 0: //! Contain
-            bgImage.style.objectFit = "contain"; break;
+            bgImage.style.objectFit = "contain"; 
+            bgVideo.style.objectFit = "contain"; break;
         case 1: //! Cover
-            bgImage.style.objectFit = "cover"; break;
+            bgImage.style.objectFit = "cover"; 
+            bgVideo.style.objectFit = "cover"; break;
         case 2: //! Fill
-            bgImage.style.objectFit = "fill"; break;
+            bgImage.style.objectFit = "fill"; 
+            bgVideo.style.objectFit = "fill"; break;
         case 3: //! Scale-Down
-            bgImage.style.objectFit = "scale-down"; break;
+            bgImage.style.objectFit = "scale-down"; 
+            bgVideo.style.objectFit = "scale-down"; break;
         case 4: //! None
-            bgImage.style.objectFit = "none"; break;
+            bgImage.style.objectFit = "none"; 
+            bgVideo.style.objectFit = "none"; break;
     }
 }
 
 function colorConfig() {
     let objIndex = -1;
     let i = -1;
+    const stepIncrease = (Math.floor(borderWidth / 10) * 2);
+    const finalBWidth = borderWidth + (stepIncrease ** 1.5);
+    document.body.style.setProperty('--borderThickness', `${finalBWidth}px`);
     mainClass.forEach(el => {
         if (1 == 3) i = -1;
         i++; objIndex++;
@@ -95,7 +149,7 @@ function colorConfig() {
             case 1: //? __ Border
                 el.style.opacity = `${opacity}`;
                 el.style.background = `none`;
-                el.style.border = `5px solid ${pall[i]}`;
+                el.style.border = `${finalBWidth}px solid ${pall[i]}`;
                 break;
             default: break;
             }
@@ -113,7 +167,7 @@ function colorConfig() {
                 break;
             case 1: //? __ Border
                 el.style.background = `none`;
-                el.style.border = `5px solid ${single}`;
+                el.style.border = `${finalBWidth}px solid ${single}`;
             default: break;
             }
         break;
@@ -164,7 +218,7 @@ function shapeConfig (shape) {
             case 0:
                 el.style.borderRadius = "50%"; break;
             case 1:
-                el.style.borderRadius = "10%"; break;
+                el.style.borderRadius = "15px"; break;
             case 2:
                 el.style.borderRadius = "0%"; break;
             default: break;
