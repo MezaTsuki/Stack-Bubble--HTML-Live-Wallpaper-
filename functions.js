@@ -114,12 +114,12 @@ function playAnimation() {
         let layer = parseFloat(circle.getPropertyValue('--layer') -1);
         let animDuration = defaultAnimDuration[ activeAnim ];
         
-        el.style.animationDelay = `calc( ${animDelay[ activeAnim ]}s * ${layer})`;
         el.style.animation = `
             ${animNames[ activeAnim ]} 
             ${animDuration}s 
             ${animCurve[ activeAnim ]}
         `;
+        el.style.animationDelay = `calc( ${animDelay[ activeAnim ]}s * ${layer} )`;
         
         if (i == mainClass.length) {
             lastLayer = layer;
