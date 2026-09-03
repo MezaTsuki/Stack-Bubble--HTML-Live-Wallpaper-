@@ -7,20 +7,20 @@ html, body, .bgImage, .circle {
 
 body{
     margin: 0;
-    overflow: hidden; background: #271010;
+    overflow: hidden; 
+    background: #8d8d8d;
 
     --baseUnit: 15vw;
     --borderThickness: 5px;
-    --randomTiltValue: 90deg;
 }
 
 .circle{
     --defaultRotation: 45deg;
+    --randomDeg: 90deg;
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%) rotate(var(--defaultRotation));
     transform-origin: center;
-    background: #271010;
 
     height: calc(var(--baseUnit) * var(--layer));
     width: calc(var(--baseUnit) * var(--layer));
@@ -31,6 +31,13 @@ body{
         top 0.05s,
         opacity 1s
     ;
+
+    /* todo: Hole Prototype */
+    mask: 
+        linear-gradient(#000 0 0),
+        var(--holes, linear-gradient(transparent 0 0));
+    mask-composite: add, add;
+    mask-composite: exclude;
 }
 
 .bgImage, .bgVideo{
@@ -129,9 +136,13 @@ body{
         translate(-50%, -50%) 
         rotate(var(--defaultRotation))
     }
-    50%{ transform: 
+    40%{ transform: 
         translate(-50%, -50%) 
-        rotate( calc( var(--defaultRotation) + var(--randomTiltValue) ))
+        rotate( calc( var(--defaultRotation) + var(--randomDeg) ))
+    }
+    60%{ transform: 
+        translate(-50%, -50%) 
+        rotate( calc( var(--defaultRotation) + var(--randomDeg) ))
     }
     100%{ transform: 
         translate(-50%, -50%) 

@@ -14,7 +14,7 @@ function getFileType(path) {
 //# __ LIVELY CONFIG __
 let pall = ["#000000", "#ffffff", "#9cecf7", "#ff9fe2"];
 let single = "#fc7e7e"
-let colorMode = 0; let fillMode = 1; let opacity = 1; 
+let colorMode = 1; let fillMode = 0; let opacity = 1; 
 
 let imageFit = 0;
 let graphicBGToggle = false;
