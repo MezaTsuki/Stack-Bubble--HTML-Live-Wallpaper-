@@ -40,7 +40,7 @@ body{
     mask-composite: exclude;
 }
 
-.bgImage, .bgVideo{
+.bgImage, .bgVideo, .objImage, .objVideo{
     position: absolute;
     height: 100%; width: 100%;
     visibility: hidden;

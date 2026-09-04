@@ -6,13 +6,11 @@
  */
 
 
-const obj = document.getElementById("a");
-const objStyle = getComputedStyle(obj);
 const body = getComputedStyle(document.body);
 const bgImage = document.querySelector(".bgImage");
 const bgVideo = document.querySelector(".bgVideo");
 
-const mainClass = document.querySelectorAll(".circle");
+let mainClass = document.querySelectorAll(".circle");
 
 let fileHeight = bgImage.naturalHeight;
 let fileWidth = bgImage.naturalWidth;
@@ -27,13 +25,18 @@ function random(min, max) {
 //? Animation Mouse-Delay Detection
 let mouseX; let locatorX = 1;
 let mouseY; let locatorY = 1;
+let startingDeg = 0; 
+let elasticity = 40;
+
+let originX = 0.5; //! NEW
+let originY = 0.5; //! NEW
 
 //# __ MOUSE MOVE __
 let play = null; let elapsedStop = 0;
 document.addEventListener("mousemove", e => {
 
-    let bodyCenterY = parseFloat(body.height)/2;
-    let bodyCenterX = parseFloat(body.width)/2;
+    let bodyOriginX = parseFloat(body.width) * (1 - originX);
+    let bodyOriginY = parseFloat(body.height) * (1 - originY);
 
     //! for position
     let mousePosX = e.clientX;
@@ -48,12 +51,13 @@ document.addEventListener("mousemove", e => {
         // let centerX = parseFloat(circle.width);
 
         setTimeout(() => { 
-            let movementDeg = (0.7 ** layer); 
+            const degAmount = startingDeg * mainClass.length;
+            let movementDeg = (0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))); 
                 if (movementDeg > 1) movementDeg = 1;
-            let newPosY = bodyCenterY + ((mousePosY - bodyCenterY) * movementDeg);
-            let newPosX = bodyCenterX + ((mousePosX - bodyCenterX) * movementDeg);
-            el.style.top = `${newPosY}px`;
+            let newPosX = bodyOriginX + ((mousePosX - bodyOriginX) * movementDeg);
+            let newPosY = bodyOriginY + ((mousePosY - bodyOriginY) * movementDeg);
             el.style.left = `${newPosX}px`;
+            el.style.top = `${newPosY}px`;
         }, (layer * 30))
     });
 
@@ -118,8 +122,8 @@ function playAnimation() {
             ${animNames[ activeAnim ]} 
             ${animDuration}s 
             ${animCurve[ activeAnim ]}
+            calc( ${animDelay[ activeAnim ]}s * ${layer} )
         `;
-        el.style.animationDelay = `calc( ${animDelay[ activeAnim ]}s * ${layer} )`;
         
         if (i == mainClass.length) {
             lastLayer = layer;

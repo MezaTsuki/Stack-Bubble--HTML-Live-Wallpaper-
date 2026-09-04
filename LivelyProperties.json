@@ -1,4 +1,52 @@
 {
+    "numberOfBubbles": {
+        "text": "Number of Bubbles",
+        "type": "slider",
+        "min": 1,
+        "max": 24,
+        "step": 1,
+        "value": 4
+    },
+    "minSize": {
+        "text": "Minimum Size",
+        "type": "slider",
+        "min": 0.1,
+        "max": 16,
+        "step": 0.1,
+        "value": 0.7
+    },
+    "maxSize": {
+        "text": "Maximum Size",
+        "type": "slider",
+        "min": 0.1,
+        "max": 16,
+        "step": 0.1,
+        "value": 5.2
+    },
+    "elasticity": {
+        "text": "Elasticity",
+        "type": "slider",
+        "min": 1,
+        "max": 50,
+        "step": 1,
+        "value": 25
+    },
+    "startingDeg": {
+        "text": "Starting Movement Degradation",
+        "type": "slider",
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "value": 0
+    },
+    "size": {
+        "text": "Size %",
+        "type": "slider",
+        "min": 1,
+        "max": 36,
+        "step": 0.2,
+        "value": 18
+    },
     "shape": {
         "text": "Shape",
         "type": "dropdown",
@@ -18,22 +66,6 @@
         ],
         "value": 1
     },
-    "size": {
-        "text": "Size",
-        "type": "slider",
-        "min": 1,
-        "max": 48,
-        "step": 0.2,
-        "value": 18
-    },
-    "opacity": {
-        "text": "Opacity",
-        "type": "slider",
-        "min": 0,
-        "max": 1,
-        "step": 0.01,
-        "value": 1
-    },
     "fillMode": {
         "text": "Fill Mode",
         "type": "dropdown",
@@ -51,27 +83,19 @@
     "colorMode": {
         "text": "Color Mode",
         "type": "dropdown",
-        "items": ["Single", "Palette"],
+        "items": ["Fade", "Palette"],
         "value": 1
     },
-    "blendMode": {
-        "text": "Blend Mode",
-        "type": "dropdown",
-        "items": [
-            "Normal", "Multiply", "Screen", "Overlay", 
-            "Darken", 
-            "Lighten", 
-            "Color-Dodge", 
-            "Color-Burn", 
-            "Hard-Light", 
-            "Soft-Light", 
-            "Difference", 
-            "Exclusion"
-        ],
-        "value": 0
+    "colorOpacity": {
+        "text": "Color Opacity",
+        "type": "slider",
+        "min": 0,
+        "max": 1,
+        "step": 0.01,
+        "value": 1
     },
-    "singleColor": {
-        "text": "Single - Color",
+    "color1": {
+        "text": "Single Color - 1",
         "type": "color",
         "value": "#2a9c5da4"
     },
@@ -95,8 +119,29 @@
         "type": "color",
         "value": "#ff9fe2"
     },
+    "blendMode": {
+        "text": "Blend Mode",
+        "type": "dropdown",
+        "items": [
+            "Normal", "Multiply", "Screen", "Overlay", 
+            "Darken", 
+            "Lighten", 
+            "Color-Dodge", 
+            "Color-Burn", 
+            "Hard-Light", 
+            "Soft-Light", 
+            "Difference", 
+            "Exclusion"
+        ],
+        "value": 0
+    },
+    "backdropFilter": {
+        "text": "Filter: Backdrop \n - blur(0 to 50px)\n - brightness(0 to 3)\n - grayscale(0 to 1)\n - invert(0 to 1)\n - sepia(0 to 1)",
+        "type": "textbox",
+        "value": ""
+    },
     "darkMode": {
-        "text": "Dark Mode",
+        "text": "Dark Background",
         "type": "checkbox",
         "value": false
     },
@@ -109,7 +154,7 @@
         "text": "Fitting Mode",
         "type": "dropdown",
         "items": ["Contain", "Cover", "Fill", "Scale-Down", "None"],
-        "value": 0
+        "value": 1
     },
     "graphicBG": {
         "text": "Browse Image/Video:",
@@ -120,7 +165,7 @@
         "value": ""
     },
     "imagePosition": {
-        "text": "Image/Video Position [center, top, left, right, bottom] [50% 50%]",
+        "text": "Image/Video Position \n[center, top, left, right, bottom] \n[top right, bottom left] \n[50% 50%]",
         "type": "textbox",
         "value": "center"
     }

@@ -1,7 +1,8 @@
 
 function opacityToHex(opacity) {
-  const int = Math.round(opacity * 255);
-  return int.toString(16).padStart(2, '0');
+    opacity = Math.min(1, Math.max(0, opacity));
+    const int = Math.round(opacity * 255);
+    return int.toString(16).padStart(2, '0').toUpperCase();
 }
 function getFileType(path) {
     const ext = path.split('.').pop().toLowerCase();
@@ -11,10 +12,24 @@ function getFileType(path) {
     return 'unknown';
 }
 
+let isInit = true;
+window.addEventListener('DOMContentLoaded', () => {
+    mainClass = document.querySelectorAll(".circle");
+    constructBubble(noOfBubbles);
+    isInit = false;
+});
+
+
 //# __ LIVELY CONFIG __
+let noOfBubbles = 4; //! NEW
+let maxSize = 5.2; //! NEW
+let minSize = 0.7; //! NEW
+
 let pall = ["#000000", "#ffffff", "#9cecf7", "#ff9fe2"];
-let single = "#fc7e7e"
-let colorMode = 1; let fillMode = 0; let opacity = 1; 
+let color1 = "#4c4fffab"
+let colorMode = 1; let fillMode = 0; let colorOpacity = 1; let shape = 0;
+let blendMode = 0;
+let backdropFilter = '';
 
 let imageFit = 0;
 let graphicBGToggle = false;
@@ -23,12 +38,32 @@ let graphicBGType = "image";
 
 let borderWidth = 5;
 
-colorConfig(); 
 function livelyPropertyListener(name, value) {
     switch (name) {
 
+        case"numberOfBubbles":
+            noOfBubbles = value;
+            constructBubble(noOfBubbles);
+            break;
+        case"minSize":
+            minSize = value;
+            constructBubble(noOfBubbles);
+            break;
+        case"maxSize":
+            maxSize = value;
+            constructBubble(noOfBubbles);
+            break;
+        case"elasticity":
+            elasticity = value;
+            constructBubble(noOfBubbles);
+            break;
+        case"startingDeg":
+            startingDeg = value;
+            constructBubble(noOfBubbles);
+            break;
         case"shape": 
-            shapeConfig(value);
+            shape = value;
+            shapeConfig();
             break;
         case"animation": 
             activeAnim = value;
@@ -36,24 +71,20 @@ function livelyPropertyListener(name, value) {
         case"size": 
             sizeConfig(value);
             break;
-        case"opacity":
-            opacity = value; colorConfig();
-            break;
-        case"colorMode":
-            colorMode = value; colorConfig();
-            break;
         case"fillMode":
             fillMode = value; colorConfig();
             break;
         case"borderWidth":
-            borderWidth = value;
-            colorConfig();
+            borderWidth = value; colorConfig();
             break;
-        case"blendMode":
-            blendConfig(value);
+        case"colorMode":
+            colorMode = value; colorConfig();
             break;
-        case"singleColor":
-            single = value; colorConfig();
+        case"colorOpacity":
+            colorOpacity = value; colorConfig();
+            break;
+        case"color1":
+            color1 = value; colorConfig();
             break;
         case"palette1":
             pall[0] = value; colorConfig(); break; 
@@ -63,11 +94,19 @@ function livelyPropertyListener(name, value) {
             pall[2] = value; colorConfig(); break; 
         case"palette4":
             pall[3] = value; colorConfig(); break; 
+        case"blendMode":
+            blendMode = value;
+            blendConfig();
+            break;
+        case"backdropFilter":
+            backdropFilter = value;
+            filterConfig();
+            break;
         case"darkMode":
             if (value) { document.body.style.background = "black"; } 
             else { document.body.style.background = "white"; }
             break;
-        case"graphicBGToggle":``
+        case"graphicBGToggle":
             graphicBGToggle = value ? true : false;
             graphicBGConfig();
             break;
@@ -85,6 +124,49 @@ function livelyPropertyListener(name, value) {
             break;
         default: break;
     }
+    if(isInit) return; 
+}
+
+function constructBubble(totalBubbles) {
+    mainClass.forEach(el => el.remove());
+
+    let index = 0;
+    const sizeRange = maxSize - minSize;
+    const layerStep = sizeRange / totalBubbles;
+    do {
+        index++;
+
+        const currentLayer = minSize + (layerStep * (index - 1));
+
+        const bubble = document.createElement('div');
+        bubble.style.setProperty('--layer', currentLayer);
+        bubble.style.zIndex = totalBubbles - index + 1;
+        bubble.classList.add('circle');
+
+        const objImage = document.createElement('img');
+        objImage.classList.add('objImage');
+
+        const objVideo = document.createElement('video');
+        objVideo.classList.add('objVideo');
+        objVideo.autoplay = true;
+        objVideo.loop = true;
+
+        bubble.appendChild(objImage);
+        bubble.appendChild(objVideo);
+        document.body.appendChild(bubble);
+
+    } while (index < totalBubbles);
+    mainClass = document.querySelectorAll(".circle");
+    colorConfig();
+    blendConfig();
+    shapeConfig();
+    filterConfig();
+}
+
+function filterConfig() {
+    mainClass.forEach(el => {
+        el.style.backdropFilter = `${backdropFilter}`;
+    })
 }
 
 function graphicBGConfig() {
@@ -134,40 +216,39 @@ function colorConfig() {
     const stepIncrease = (Math.floor(borderWidth / 10) * 2);
     const finalBWidth = borderWidth + (stepIncrease ** 1.5);
     document.body.style.setProperty('--borderThickness', `${finalBWidth}px`);
+    
     mainClass.forEach(el => {
-        if (1 == 3) i = -1;
-        i++; objIndex++;
+        i = (i + 1) % pall.length; 
+        objIndex++;
+        
+        const opDecay = (1 / mainClass.length);
+        const finalOpacity = Math.max(colorOpacity - (objIndex * opDecay), 0);
+
         switch(colorMode){
         case 1:  //! _ Palette
-
             switch(fillMode){
             case 0: //? __ Fill
-                el.style.opacity = `${opacity}`;
-                el.style.background = `${pall[i]}`;
+                el.style.background = `${pall[i].substring(0, 7)}${opacityToHex(colorOpacity)}`;
                 el.style.border = ``;
                 break;
             case 1: //? __ Border
-                el.style.opacity = `${opacity}`;
                 el.style.background = `none`;
-                el.style.border = `${finalBWidth}px solid ${pall[i]}`;
+                el.style.border = `${finalBWidth}px solid ${pall[i].substring(0, 7)}${opacityToHex(colorOpacity)}`;
                 break;
             default: break;
             }
         break;
 
-        case 0: //! _ Single
-            const opDecay = (1 / mainClass.length);
-            const finalOpacity = Math.max(opacity - (objIndex * opDecay), 0);
-            el.style.opacity = `${finalOpacity}`;
-
+        case 0: //! _ Fade
             switch(fillMode){
             case 0: //? __ Fill
-                el.style.background = `${single}`;
+                el.style.background = `${color1.substring(0, 7)}${opacityToHex(finalOpacity)}`;
                 el.style.border = ``;
                 break;
             case 1: //? __ Border
                 el.style.background = `none`;
-                el.style.border = `${finalBWidth}px solid ${single}`;
+                el.style.border = `${finalBWidth}px solid ${color1.substring(0, 7)}${opacityToHex(finalOpacity)}`;
+                break;
             default: break;
             }
         break;
@@ -176,9 +257,9 @@ function colorConfig() {
     })
 }
 
-function blendConfig (mode) {
+function blendConfig () {
     mainClass.forEach(el => {
-        switch(mode) {
+        switch(blendMode) {
             case 0: //! Normal
                 el.style.mixBlendMode = "normal"; break;
             case 1: //! Multiply
@@ -211,7 +292,7 @@ function sizeConfig (size) {
     document.body.style.setProperty('--baseUnit', `${size}vw`);
 }
 
-function shapeConfig (shape) {
+function shapeConfig () {
     mainClass.forEach(el => {
 
         switch(shape){
