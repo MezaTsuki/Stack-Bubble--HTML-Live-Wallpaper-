@@ -21,11 +21,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 //# __ LIVELY CONFIG __
-let noOfBubbles = 4; //! NEW
-let maxSize = 5.2; //! NEW
-let minSize = 0.7; //! NEW
+let noOfBubbles = 4; 
+let maxSize = 5.2; 
+let minSize = 0.7; 
+let baseRotation = 45;
+let rotationOffset = 0;
 
-let pall = ["#000000", "#ffffff", "#9cecf7", "#ff9fe2"];
+let pall = ["#2c1d1d", "#ffffff", "#9cecf7", "#ff9fe2"];
 let color1 = "#4c4fffab"
 let colorMode = 1; let fillMode = 0; let colorOpacity = 1; let shape = 0;
 let blendMode = 0;
@@ -65,11 +67,25 @@ function livelyPropertyListener(name, value) {
             shape = value;
             shapeConfig();
             break;
+        case"baseRotation": 
+            baseRotation = value;
+            baseRotationConfig();
+            break;
+        case"rotationOffset": 
+            rotationOffset = value;
+            baseRotationConfig();
+            break;
         case"animation": 
             activeAnim = value;
             break;
         case"size": 
             sizeConfig(value);
+            break;
+        case"posX": 
+            originX = value/100;
+            break;
+        case"posY": 
+            originY = value/100;
             break;
         case"fillMode":
             fillMode = value; colorConfig();
@@ -127,6 +143,14 @@ function livelyPropertyListener(name, value) {
     if(isInit) return; 
 }
 
+function baseRotationConfig() {
+    let i = 0;
+    mainClass.forEach(el => {
+        const offset = rotationOffset * i++;
+        el.style.setProperty('--defaultRotation', `${baseRotation + offset}deg`);
+    })
+}
+
 function constructBubble(totalBubbles) {
     mainClass.forEach(el => el.remove());
 
@@ -136,10 +160,11 @@ function constructBubble(totalBubbles) {
     do {
         index++;
 
-        const currentLayer = minSize + (layerStep * (index - 1));
+        const currentSize = minSize + (layerStep * (index - 1));
 
         const bubble = document.createElement('div');
-        bubble.style.setProperty('--layer', currentLayer);
+        bubble.style.setProperty('--layer', index);
+        bubble.style.setProperty('--size', currentSize);
         bubble.style.zIndex = totalBubbles - index + 1;
         bubble.classList.add('circle');
 

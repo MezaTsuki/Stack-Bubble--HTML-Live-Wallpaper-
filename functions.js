@@ -1,7 +1,7 @@
 
 /**todo: Features to Add
  *      
- *      1. Bubble Number Customization [SLIDER]
+ *      1. _
  *      2. Bubble Texture Setting
  */
 
@@ -28,8 +28,8 @@ let mouseY; let locatorY = 1;
 let startingDeg = 0; 
 let elasticity = 40;
 
-let originX = 0.5; //! NEW
-let originY = 0.5; //! NEW
+let originX = 0.5; 
+let originY = 0.5; 
 
 //# __ MOUSE MOVE __
 let play = null; let elapsedStop = 0;
@@ -54,6 +54,7 @@ document.addEventListener("mousemove", e => {
             const degAmount = startingDeg * mainClass.length;
             let movementDeg = (0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))); 
                 if (movementDeg > 1) movementDeg = 1;
+                
             let newPosX = bodyOriginX + ((mousePosX - bodyOriginX) * movementDeg);
             let newPosY = bodyOriginY + ((mousePosY - bodyOriginY) * movementDeg);
             el.style.left = `${newPosX}px`;
@@ -63,7 +64,7 @@ document.addEventListener("mousemove", e => {
 
     // setHoles(); 
 
-    //! for animation /\/\/\/\/
+    //! for animation --> <-- ^^^
     locatorX = mouseX;
     locatorY = mouseY;
     mouseX = e.clientX;
@@ -86,7 +87,7 @@ document.addEventListener("mousemove", e => {
 //# __ ANIMATION __
 let animNames = ["none", "bounce", "random-tilt", "focus", "retribution-vertical", "retribution-horizontal"];
 let defaultAnimDuration = [ 0, 0.8, 1.3 , 1.8, 1.5, 1.5 ];
-let animDelay = [ 0, 0.1, 0.07, 0.1, 0.03, 0.03 ];
+let animDelay = [ 0, 0.1, 0.07, 0.1, 0.035, 0.035 ];
 let animCurve = [
     "cubic-bezier(0,0,0,0)",
     "ease-out",

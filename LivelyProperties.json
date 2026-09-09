@@ -23,8 +23,32 @@
         "step": 0.1,
         "value": 5.2
     },
+    "size": {
+        "text": "Size %",
+        "type": "slider",
+        "min": 1,
+        "max": 36,
+        "step": 0.2,
+        "value": 18
+    },
+    "posX": {
+        "text": "Position X %",
+        "type": "slider",
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "value": 50
+    },
+    "posY": {
+        "text": "Position Y %",
+        "type": "slider",
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "value": 50
+    },
     "elasticity": {
-        "text": "Elasticity",
+        "text": "Elasticity (default: 25)",
         "type": "slider",
         "min": 1,
         "max": 50,
@@ -39,18 +63,26 @@
         "step": 0.01,
         "value": 0
     },
-    "size": {
-        "text": "Size %",
-        "type": "slider",
-        "min": 1,
-        "max": 36,
-        "step": 0.2,
-        "value": 18
-    },
     "shape": {
         "text": "Shape",
         "type": "dropdown",
         "items": ["Circle", "Diamond(Round)", "Diamond(Sharp)"],
+        "value": 0
+    },
+    "baseRotation": {
+        "text": "Base Rotation (degrees)",
+        "type": "slider",
+        "min": 0,
+        "max": 360,
+        "step": 1,
+        "value": 45
+    },
+    "rotationOffset": {
+        "text": "Rotation Offset (degrees)",
+        "type": "slider",
+        "min": -90,
+        "max": 90,
+        "step": 1,
         "value": 0
     },
     "animation": {
