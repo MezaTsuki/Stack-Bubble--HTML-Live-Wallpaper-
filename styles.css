@@ -31,13 +31,6 @@ body{
         top 0.05s,
         opacity 1s
     ;
-
-    /* todo: Hole Prototype */
-    mask: 
-        linear-gradient(#000 0 0),
-        var(--holes, linear-gradient(transparent 0 0));
-    mask-composite: add, add;
-    mask-composite: exclude;
 }
 
 .bgImage, .bgVideo, .objImage, .objVideo{
@@ -45,7 +38,12 @@ body{
     height: 100%; width: 100%;
     visibility: hidden;
 
-    transition: 0.5s;
+    transition: 
+        left 0.05s,
+        top 0.05s,
+        opacity 1s
+    ;
+
     -webkit-user-drag: none;
 }
 

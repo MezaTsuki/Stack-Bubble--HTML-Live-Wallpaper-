@@ -15,9 +15,6 @@ let mainClass = document.querySelectorAll(".circle");
 let fileHeight = bgImage.naturalHeight;
 let fileWidth = bgImage.naturalWidth;
 
-let screenHeight = body.innerHeight;
-let screenWidth = body.innerWidth;
-
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -26,17 +23,24 @@ function random(min, max) {
 let mouseX; let locatorX = 1;
 let mouseY; let locatorY = 1;
 let startingDeg = 0; 
-let elasticity = 40;
+let elasticity = 25;
 
 let originX = 0.5; 
 let originY = 0.5; 
+let movementDelay = 30;
+
+let panning = true;
+let panningZoom = 0.1;
 
 //# __ MOUSE MOVE __
 let play = null; let elapsedStop = 0;
 document.addEventListener("mousemove", e => {
+    
+    let screenHeight = parseFloat(body.height);
+    let screenWidth = parseFloat(body.width);
 
-    let bodyOriginX = parseFloat(body.width) * (1 - originX);
-    let bodyOriginY = parseFloat(body.height) * (1 - originY);
+    let bubbleOriginX = screenWidth * (1 - originX);
+    let bubbleOriginY = screenHeight * (1 - originY);
 
     //! for position
     let mousePosX = e.clientX;
@@ -55,11 +59,11 @@ document.addEventListener("mousemove", e => {
             let movementDeg = (0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))); 
                 if (movementDeg > 1) movementDeg = 1;
                 
-            let newPosX = bodyOriginX + ((mousePosX - bodyOriginX) * movementDeg);
-            let newPosY = bodyOriginY + ((mousePosY - bodyOriginY) * movementDeg);
+            let newPosX = bubbleOriginX + ((mousePosX - bubbleOriginX) * movementDeg);
+            let newPosY = bubbleOriginY + ((mousePosY - bubbleOriginY) * movementDeg);
             el.style.left = `${newPosX}px`;
             el.style.top = `${newPosY}px`;
-        }, (layer * 30))
+        }, (layer * movementDelay))
     });
 
     // setHoles(); 
@@ -70,7 +74,7 @@ document.addEventListener("mousemove", e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     
-    if (play) return;
+    if (!play) {
     play = setInterval(() => {
         console.log(Math.abs(locatorX - mouseX), Math.abs(locatorY - mouseY));
         if ((Math.abs(locatorX - mouseX) < 2) && (Math.abs(locatorY - mouseY) < 2)) {
@@ -81,7 +85,15 @@ document.addEventListener("mousemove", e => {
             }
         } else { elapsedStop = 0; }
 
-    }, 50)
+    }, 50)}
+
+    //! Background Panning Movement
+    if (!panning || !graphicBGToggle) return;
+    const mouseRatioX = (mousePosX / screenWidth) * 100;
+    const mouseRatioY = (mousePosY / screenHeight) * 100;
+
+    bgVideo.style.transformOrigin = `${mouseRatioX}% ${mouseRatioY}%`;
+    bgImage.style.transformOrigin = `${mouseRatioX}% ${mouseRatioY}%`;
 });
 
 //# __ ANIMATION __
@@ -138,47 +150,4 @@ function playAnimation() {
         el.style.animation = "none";
         ready = true;
     })}, (initialTimeout + timeoutDelay + animCooldown) )
-}
-
-//# __ SET HOLES __
-//todo [Prototype] Clean and Optimize
-function setHoles(){
-    let frontMasks = [];
-
-    mainClass.forEach(circle => {
-        if (frontMasks.length) {
-        circle.style.setProperty('--holes', frontMasks.join(', '));
-        }
-
-        // store this circle for the next ones
-        // we don't know its px yet, we calculate its center vs each behind circle later
-        // so we just store the element
-        frontMasks.push(circle);
-    });
-
-    // now build actual gradients with offset
-    mainClass.forEach((behind, behindIndex) => {
-        if(behindIndex === 0) return;
-        
-        const behindRect = behind.getBoundingClientRect();
-        const behindCenterX = behindRect.left + behindRect.width/2;
-        const behindCenterY = behindRect.top + behindRect.height/2;
-
-        const holes = [];
-        for(let i=0; i<behindIndex; i++){
-            const front = mainClass[i];
-            const frontRect = front.getBoundingClientRect();
-            const frontCenterX = frontRect.left + frontRect.width/2;
-            const frontCenterY = frontRect.top + frontRect.height/2;
-            const r = front.offsetWidth / 2;
-
-            // position of front relative to behind
-            const dx = frontCenterX - behindCenterX;
-            const dy = frontCenterY - behindCenterY;
-
-            // mask position is inside behind element: 50% + dx,dy
-            holes.push(`radial-gradient(circle ${r}px at calc(50% + ${dx}px) calc(50% + ${dy}px), #000 99%, transparent 100%)`);
-        }
-        behind.style.setProperty('--holes', holes.join(', '));
-    });
 }

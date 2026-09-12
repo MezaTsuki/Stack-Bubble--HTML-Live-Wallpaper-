@@ -33,13 +33,16 @@ let colorMode = 1; let fillMode = 0; let colorOpacity = 1; let shape = 0;
 let blendMode = 0;
 let backdropFilter = '';
 
-let imageFit = 0;
-let graphicBGToggle = false;
+let imageFit = 1;
+let graphicBGToggle = true;
 let graphicBG = 'background/75833.webm';
-let graphicBGType = "image";
+let graphicBGType = "video";
 
 let borderWidth = 5;
 
+//! _________ DEBUG _________
+// graphicBGConfig(); imageFitConfig(imageFit); sizeConfig(3);
+// bgZoomConfig();
 function livelyPropertyListener(name, value) {
     switch (name) {
 
@@ -57,11 +60,12 @@ function livelyPropertyListener(name, value) {
             break;
         case"elasticity":
             elasticity = value;
-            constructBubble(noOfBubbles);
+            break;
+        case"movementDelay":
+            movementDelay = value;
             break;
         case"startingDeg":
             startingDeg = value;
-            constructBubble(noOfBubbles);
             break;
         case"shape": 
             shape = value;
@@ -138,9 +142,27 @@ function livelyPropertyListener(name, value) {
             bgImage.style.objectPosition = value.toLowerCase();
             bgVideo.style.objectPosition = value.toLowerCase();
             break;
+        case"panning":
+            panning = value;
+            bgZoomConfig();
+            break;
+        case"panningZoom":
+            panningZoom = value;
+            bgZoomConfig();
+            break;
         default: break;
     }
     if(isInit) return; 
+}
+
+function bgZoomConfig() {
+    if (!panning || !graphicBGToggle) {
+        bgImage.style.transform = ``;
+        bgVideo.style.transform = ``;
+        return;
+    }
+    bgImage.style.transform = `scale(${1 + panningZoom})`;
+    bgVideo.style.transform = `scale(${1 + panningZoom})`;
 }
 
 function baseRotationConfig() {
