@@ -1,11 +1,10 @@
-[markdrop-document-2026-09-13.md](https://github.com/user-attachments/files/32154293/markdrop-document-2026-09-13.md)
 ### Preview:
 
-https://github.com/user-attachments/assets/aec3dd5f-36f6-43b7-91bd-39e9cbd1a8a6
+![](https://github.com/user-attachments/assets/3769b886-901b-475f-bf62-9ec07168cf28)
 
-![](https://github.com/user-attachments/assets/e36caa50-5b12-4e9b-9def-47ab667ba457)
+https://github.com/user-attachments/assets/d51c3c67-ee98-4d67-8aca-998a18e70b34
 
-https://github.com/user-attachments/assets/8317c732-c758-4dd6-9d1e-9f5ec881d09b
+https://github.com/user-attachments/assets/99f8774d-df87-4998-8b9c-7061e77046e0
 
 ---
 
