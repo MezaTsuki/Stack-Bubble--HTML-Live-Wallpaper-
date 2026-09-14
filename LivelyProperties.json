@@ -50,7 +50,7 @@
     "elasticity": {
         "text": "Elasticity (default: 25)",
         "type": "slider",
-        "min": 1,
+        "min": 0,
         "max": 50,
         "step": 1,
         "value": 25
@@ -74,7 +74,7 @@
     "shape": {
         "text": "Shape",
         "type": "dropdown",
-        "items": ["Circle", "Diamond(Round)", "Diamond(Sharp)"],
+        "items": ["Circle", "Diamond(Round)", "Diamond(Sharp)", "Rows", "Columns"],
         "value": 0
     },
     "baseRotation": {
@@ -163,20 +163,14 @@
         "text": "Blend Mode",
         "type": "dropdown",
         "items": [
-            "Normal", "Multiply", "Screen", "Overlay", 
-            "Darken", 
-            "Lighten", 
-            "Color-Dodge", 
-            "Color-Burn", 
-            "Hard-Light", 
-            "Soft-Light", 
-            "Difference", 
-            "Exclusion"
+            "Normal",   "Multiply",     "Screen",   "Overlay", 
+            "Darken",   "Lighten",  "Color-Dodge",  "Color-Burn", 
+            "Hard-Light",   "Soft-Light",   "Difference",   "Exclusion"
         ],
         "value": 0
     },
     "backdropFilter": {
-        "text": "Filter: Backdrop \n - blur(0 to 50px)\n - brightness(0 to 3)\n - grayscale(0 to 1)\n - invert(0 to 1)\n - sepia(0 to 1)",
+        "text": "Filter: Backdrop \n - blur(0 to 50px)\n - brightness(0 to 3)\n - grayscale(0 to 1)\n - invert(0 to 1)\n - hue-rotate(0deg to 360deg)\n - sepia(0 to 1)",
         "type": "textbox",
         "value": ""
     },
@@ -204,10 +198,53 @@
         "subfolders": true,
         "value": ""
     },
-    "imagePosition": {
-        "text": "Image/Video Position \n[center, top, left, right, bottom] \n[top right, bottom left] \n[50% 50%]",
+    "backgroundPosition": {
+        "text": "Background Image/Video Position \n[center, top, left, right, bottom] \n[top right, bottom left] \n[50% 50%]",
         "type": "textbox",
         "value": "center"
+    },
+    "graphicTextureToggle": {
+        "text": "Image/Video Texture:",
+        "type": "checkbox",
+        "value": false
+    },
+    "textureFit": {
+        "text": "Fitting Mode",
+        "type": "dropdown",
+        "items": ["Contain", "Cover", "Fill", "Scale-Down", "None"],
+        "value": 1
+    },
+    "graphicTexture1": {
+        "text": "Browse Image/Video:",
+        "type": "folderDropdown",
+        "filter": "*.jpg|*.jpeg|*.png|*.webp|*.avif|*.gif|*.mp4|*.webm|*.ogg",
+        "folder": "textures/t1",
+        "subfolders": true,
+        "value": ""
+    },
+    "graphicTexture2": {
+        "text": "Browse Image/Video:",
+        "type": "folderDropdown",
+        "filter": "*.jpg|*.jpeg|*.png|*.webp|*.avif|*.gif|*.mp4|*.webm|*.ogg",
+        "folder": "textures/t2",
+        "subfolders": true,
+        "value": ""
+    },
+    "graphicTexture3": {
+        "text": "Browse Image/Video:",
+        "type": "folderDropdown",
+        "filter": "*.jpg|*.jpeg|*.png|*.webp|*.avif|*.gif|*.mp4|*.webm|*.ogg",
+        "folder": "textures/t3",
+        "subfolders": true,
+        "value": ""
+    },
+    "graphicTexture4": {
+        "text": "Browse Image/Video:",
+        "type": "folderDropdown",
+        "filter": "*.jpg|*.jpeg|*.png|*.webp|*.avif|*.gif|*.mp4|*.webm|*.ogg",
+        "folder": "textures/t4",
+        "subfolders": true,
+        "value": ""
     },
     "panning": {
         "text": "Panning",
@@ -219,7 +256,7 @@
         "type": "slider",
         "min": -1,
         "max": 1,
-        "step": 0.05,
+        "step": 0.01,
         "value": 0.1
     }
 }

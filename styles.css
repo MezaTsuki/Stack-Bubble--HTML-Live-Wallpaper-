@@ -12,11 +12,16 @@ body{
 
     --baseUnit: 15vw;
     --borderThickness: 5px;
+    
+    --baseRotation: 45deg;
 }
 
 .circle{
-    --defaultRotation: 45deg;
     --randomDeg: 90deg;
+    --rotationOffset: 0deg;
+    
+    --defaultRotation: calc(var(--baseRotation) + var(--rotationOffset));
+
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%) rotate(var(--defaultRotation));
@@ -25,6 +30,7 @@ body{
     height: calc(var(--baseUnit) * var(--size));
     width: calc(var(--baseUnit) * var(--size));
     border-radius: 10%; 
+    overflow: hidden;
     
     transition: 
         left 0.05s,
@@ -45,6 +51,9 @@ body{
     ;
 
     -webkit-user-drag: none;
+}
+.objImage, .objVideo{
+    transform: rotate(calc(var(--baseRotation) * -1));
 }
 
 @keyframes retribution-vertical{

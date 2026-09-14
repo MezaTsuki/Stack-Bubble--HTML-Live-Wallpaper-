@@ -1,19 +1,38 @@
 
 /**todo: Features to Add
  *      
- *      1. _
- *      2. Bubble Texture Setting
+ *      1. -
+ *      2. -
+ *      3. Uniform Movement Degradation Toggle
+ *      4. Gradient Color Mode
+ *      5. Foreground Image
  */
-
 
 const body = getComputedStyle(document.body);
 const bgImage = document.querySelector(".bgImage");
 const bgVideo = document.querySelector(".bgVideo");
+let objImage = document.querySelector(".objImage");
+let objVideo = document.querySelector(".objVideo");
+
 
 let mainClass = document.querySelectorAll(".circle");
 
-let fileHeight = bgImage.naturalHeight;
-let fileWidth = bgImage.naturalWidth;
+let fileHeight, fileWidth;
+let screenHeight, screenWidth;
+
+function loadRequirements() {
+    fileHeight = bgImage.naturalHeight;
+    fileWidth = bgImage.naturalWidth;
+    screenHeight = parseFloat(body.height);
+    screenWidth = parseFloat(body.width);
+}
+window.addEventListener('resize', loadRequirements);
+bgImage.addEventListener('load', loadRequirements);
+bgVideo.addEventListener('loadedmetadata', loadRequirements);
+if (bgImage.complete) 
+    loadRequirements();
+if (bgVideo.readyState >= 1) 
+    loadRequirements();
 
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -22,6 +41,8 @@ function random(min, max) {
 //? Animation Mouse-Delay Detection
 let mouseX; let locatorX = 1;
 let mouseY; let locatorY = 1;
+
+//# __ MOUSE MOVE __
 let startingDeg = 0; 
 let elasticity = 25;
 
@@ -32,12 +53,11 @@ let movementDelay = 30;
 let panning = true;
 let panningZoom = 0.1;
 
-//# __ MOUSE MOVE __
+let allowXMovement = true;
+let allowYMovement = true;
+
 let play = null; let elapsedStop = 0;
 document.addEventListener("mousemove", e => {
-    
-    let screenHeight = parseFloat(body.height);
-    let screenWidth = parseFloat(body.width);
 
     let bubbleOriginX = screenWidth * (1 - originX);
     let bubbleOriginY = screenHeight * (1 - originY);
@@ -51,9 +71,6 @@ document.addEventListener("mousemove", e => {
         let circle = getComputedStyle(el);
         let layer = parseFloat(circle.getPropertyValue('--layer')) - 1;
 
-        // let centerY = parseFloat(circle.height);
-        // let centerX = parseFloat(circle.width);
-
         setTimeout(() => { 
             const degAmount = startingDeg * mainClass.length;
             let movementDeg = (0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))); 
@@ -61,8 +78,8 @@ document.addEventListener("mousemove", e => {
                 
             let newPosX = bubbleOriginX + ((mousePosX - bubbleOriginX) * movementDeg);
             let newPosY = bubbleOriginY + ((mousePosY - bubbleOriginY) * movementDeg);
-            el.style.left = `${newPosX}px`;
-            el.style.top = `${newPosY}px`;
+            if (allowXMovement) {el.style.left = `${newPosX}px`;}
+            if (allowYMovement) {el.style.top = `${newPosY}px`;}
         }, (layer * movementDelay))
     });
 

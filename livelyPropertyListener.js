@@ -26,10 +26,14 @@ let maxSize = 5.2;
 let minSize = 0.7; 
 let baseRotation = 45;
 let rotationOffset = 0;
+let shape = 0;
+
+let posX = 0.5;
+let posY = 0.5;
 
 let pall = ["#2c1d1d", "#ffffff", "#9cecf7", "#ff9fe2"];
 let color1 = "#4c4fffab"
-let colorMode = 1; let fillMode = 0; let colorOpacity = 1; let shape = 0;
+let colorMode = 1; let fillMode = 0; let colorOpacity = 1; 
 let blendMode = 0;
 let backdropFilter = '';
 
@@ -38,9 +42,14 @@ let graphicBGToggle = true;
 let graphicBG = 'background/75833.webm';
 let graphicBGType = "video";
 
+let textureFit = 1;
+let graphicTextureToggle = false;
+let graphicTexture = ["", "", "", "", ""];
+let graphicTextureType = ["", "", "", ""];
+
 let borderWidth = 5;
 
-//! _________ DEBUG _________
+//! _________ WEB DEBUG _________
 // graphicBGConfig(); imageFitConfig(imageFit); sizeConfig(3);
 // bgZoomConfig();
 function livelyPropertyListener(name, value) {
@@ -86,10 +95,12 @@ function livelyPropertyListener(name, value) {
             sizeConfig(value);
             break;
         case"posX": 
-            originX = value/100;
+            posX = value/100;
+            positionConfig();
             break;
         case"posY": 
-            originY = value/100;
+            posY = value/100;
+            positionConfig();
             break;
         case"fillMode":
             fillMode = value; colorConfig();
@@ -136,11 +147,39 @@ function livelyPropertyListener(name, value) {
             graphicBGConfig();
             break;
         case"imageFit":
-            imageFitConfig(value);
+            imageFit = value;
+            imageFitConfig();
             break;
-        case"imagePosition":
-            bgImage.style.objectPosition = value.toLowerCase();
-            bgVideo.style.objectPosition = value.toLowerCase();
+        case"backgroundPosition":
+            bgPositionConfig(value);
+            break;
+        case "graphicTextureToggle":
+            graphicTextureToggle = value ? true : false;
+            graphicTextureConfig();
+            break;
+        case"textureFit":
+            textureFit = value;
+            textureFitConfig();
+            break;
+        case "graphicTexture1":
+            graphicTextureType[0] = getFileType(value);
+            graphicTexture[1] = value;
+            graphicTextureConfig();
+            break;
+        case "graphicTexture2":
+            graphicTextureType[1] = getFileType(value);
+            graphicTexture[2] = value;
+            graphicTextureConfig();
+            break;
+        case "graphicTexture3":
+            graphicTextureType[2] = getFileType(value);
+            graphicTexture[3] = value;
+            graphicTextureConfig();
+            break;
+        case "graphicTexture4":
+            graphicTextureType[3] = getFileType(value);
+            graphicTexture[4] = value;
+            graphicTextureConfig();
             break;
         case"panning":
             panning = value;
@@ -155,6 +194,11 @@ function livelyPropertyListener(name, value) {
     if(isInit) return; 
 }
 
+function positionConfig() {
+    originX = allowXMovement ? posX : 0.5;
+    originY = allowYMovement ? posY : 0.5;
+}
+
 function bgZoomConfig() {
     if (!panning || !graphicBGToggle) {
         bgImage.style.transform = ``;
@@ -166,10 +210,13 @@ function bgZoomConfig() {
 }
 
 function baseRotationConfig() {
+
+    document.body.style.setProperty('--baseRotation', `${baseRotation}deg`);
+
     let i = 0;
     mainClass.forEach(el => {
         const offset = rotationOffset * i++;
-        el.style.setProperty('--defaultRotation', `${baseRotation + offset}deg`);
+        el.style.setProperty('--rotationOffset', `${offset}deg`);
     })
 }
 
@@ -205,9 +252,12 @@ function constructBubble(totalBubbles) {
     } while (index < totalBubbles);
     mainClass = document.querySelectorAll(".circle");
     colorConfig();
-    blendConfig();
+    baseRotationConfig();
     shapeConfig();
+    blendConfig();
     filterConfig();
+    graphicTextureConfig();
+    textureFitConfig();
 }
 
 function filterConfig() {
@@ -216,29 +266,113 @@ function filterConfig() {
     })
 }
 
+function graphicTextureConfig() {
+    let i = 0;
+    if (!graphicTextureToggle) {
+        mainClass.forEach(el => {
+            const objImage = el.querySelector('.objImage');
+            const objVideo = el.querySelector('.objVideo');
+
+            objImage.src = "";
+            objVideo.pause();
+            objVideo.src = "";
+            objVideo.load();
+
+            objImage.style.visibility = "hidden";
+            objVideo.style.visibility = "hidden";
+        })
+        return;
+    }
+    mainClass.forEach(el => {
+        if (i == 4) i = 0;
+        const objImage = el.querySelector('.objImage');
+        const objVideo = el.querySelector('.objVideo');
+
+        if (graphicTextureType[i] == "image") {
+            objImage.src = graphicTexture[++i];
+            objVideo.pause();
+            objVideo.src = "";
+            objVideo.load();
+
+            objImage.style.visibility = "visible";
+            objVideo.style.visibility = "hidden";
+        }
+        else if (graphicTextureType[i] == "video") {
+            objImage.src = "";
+            objVideo.src = graphicTexture[++i];
+            objVideo.play().catch(()=>{});
+
+            objImage.style.visibility = "hidden";
+            objVideo.style.visibility = "visible";
+        }
+        else {
+            i++;
+            objImage.src = "";
+            objVideo.pause();
+            objVideo.src = "";
+            objVideo.load();
+            
+            objImage.style.visibility = "hidden";
+            objVideo.style.visibility = "hidden";
+        }
+    })
+}
+
+function textureFitConfig () {
+    mainClass.forEach(el => {
+            const objImage = el.querySelector('.objImage');
+            const objVideo = el.querySelector('.objVideo');
+            switch(textureFit) {
+            case 0: //! Contain
+                objImage.style.objectFit = "contain"; 
+                objVideo.style.objectFit = "contain"; break;
+            case 1: //! Cover
+                objImage.style.objectFit = "cover"; 
+                objVideo.style.objectFit = "cover"; break;
+            case 2: //! Fill
+                objImage.style.objectFit = "fill"; 
+                objVideo.style.objectFit = "fill"; break;
+            case 3: //! Scale-Down
+                objImage.style.objectFit = "scale-down"; 
+                objVideo.style.objectFit = "scale-down"; break;
+            case 4: //! None
+                objImage.style.objectFit = "none"; 
+                objVideo.style.objectFit = "none"; break;
+        }
+    })
+    
+}
+
 function graphicBGConfig() {
     if (!graphicBGToggle || !graphicBG) {
         bgImage.style.visibility = "hidden";
+        bgImage.src = "";
         bgVideo.style.visibility = "hidden";
+        bgVideo.pause();
+        bgVideo.src = "";
+        bgVideo.load();
         return;
     }
 
     if(graphicBGType == "image"){
         bgImage.src = graphicBG;
+        bgVideo.pause();
         bgVideo.src = "";
-        bgImage.style.visibility = graphicBGToggle ? "visible" : "hidden";
+        bgVideo.load();
+        bgImage.style.visibility = "visible";
         bgVideo.style.visibility = "hidden";
     }
     if(graphicBGType == "video"){
         bgImage.src = "";
         bgVideo.src = graphicBG;
+        bgVideo.play().catch(()=>{});
         bgImage.style.visibility = "hidden";
-        bgVideo.style.visibility = graphicBGToggle ? "visible" : "hidden";
+        bgVideo.style.visibility = "visible";
     }
 }
 
-function imageFitConfig (mode) {
-    switch(mode) {
+function imageFitConfig () {
+    switch(imageFit) {
         case 0: //! Contain
             bgImage.style.objectFit = "contain"; 
             bgVideo.style.objectFit = "contain"; break;
@@ -255,6 +389,12 @@ function imageFitConfig (mode) {
             bgImage.style.objectFit = "none"; 
             bgVideo.style.objectFit = "none"; break;
     }
+}
+
+function bgPositionConfig(value) { 
+    
+    bgImage.style.objectPosition = value.toLowerCase();
+    bgVideo.style.objectPosition = value.toLowerCase();
 }
 
 function colorConfig() {
@@ -339,16 +479,69 @@ function sizeConfig (size) {
     document.body.style.setProperty('--baseUnit', `${size}vw`);
 }
 
-function shapeConfig () {
-    mainClass.forEach(el => {
+function reposition() {
+    const centerX = screenWidth / 2;
+    const centerY = screenHeight / 2;
 
+    mainClass.forEach(el => {
+        el.style.left = `${centerX}px`;
+        el.style.top = `${centerY}px`;
+    });
+}
+function shapeConfig () {
+
+    switch(shape){
+        case 0:
+        case 1:
+        case 2:
+            allowXMovement = true;
+            allowYMovement = true;
+            break;
+        case 3:
+            allowXMovement = false;
+            allowYMovement = true;
+            reposition();
+            break;
+        case 4:
+            allowXMovement = true;
+            allowYMovement = false;
+            reposition();
+            break;
+    }
+    positionConfig();
+
+    mainClass.forEach(el => {
         switch(shape){
             case 0:
-                el.style.borderRadius = "50%"; break;
+                el.style.borderRadius = "50%"; 
+                el.style.height = "";
+                el.style.width = "";
+                el.style.setProperty('--defaultRotation', "");
+                break;
             case 1:
-                el.style.borderRadius = "15px"; break;
+                el.style.borderRadius = "8%"; 
+                el.style.height = "";
+                el.style.width = "";
+                el.style.setProperty('--defaultRotation', "");
+                break;
             case 2:
-                el.style.borderRadius = "0%"; break;
+                el.style.borderRadius = "0%"; 
+                el.style.height = "";
+                el.style.width = "";
+                el.style.setProperty('--defaultRotation', "");
+                break;
+            case 3:
+                el.style.borderRadius = "0%"; 
+                el.style.height = "";
+                el.style.width = "100%";
+                el.style.setProperty('--defaultRotation', `0deg`);
+                break;
+            case 4:
+                el.style.borderRadius = "0%"; 
+                el.style.height = "100%";
+                el.style.width = "";
+                el.style.setProperty('--defaultRotation', `0deg`);
+                break;
             default: break;
         }
     })
