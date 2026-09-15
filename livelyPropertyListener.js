@@ -11,6 +11,27 @@ function getFileType(path) {
     if (['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif'].includes(ext)) return 'image';
     return 'unknown';
 }
+function hexToRgbArray(hex) {
+  hex = hex.replace('#','');
+  return [
+    parseInt(hex.slice(0,2), 16),
+    parseInt(hex.slice(2,4), 16),
+    parseInt(hex.slice(4,6), 16)
+  ];
+}
+function getGradient(color1, color2, iteration, max) {
+    max--;
+    color1 = hexToRgbArray(color1);
+    color2 = hexToRgbArray(color2);
+
+    let gradient = color1.map((col1, i) => {
+        return col1 + ((color2[i] - col1) / max) * iteration;
+    })
+    gradient = gradient.map(val => {
+        return Math.round(val).toString(16).padStart(2, "0");
+    });
+    return "#" + gradient[0] + gradient[1] + gradient[2];
+}
 
 let isInit = true;
 window.addEventListener('DOMContentLoaded', () => {
@@ -32,7 +53,6 @@ let posX = 0.5;
 let posY = 0.5;
 
 let pall = ["#2c1d1d", "#ffffff", "#9cecf7", "#ff9fe2"];
-let color1 = "#4c4fffab"
 let colorMode = 1; let fillMode = 0; let colorOpacity = 1; 
 let blendMode = 0;
 let backdropFilter = '';
@@ -102,6 +122,9 @@ function livelyPropertyListener(name, value) {
             posY = value/100;
             positionConfig();
             break;
+        case"uniformDeg":
+            uniformDeg = value;
+            break;
         case"fillMode":
             fillMode = value; colorConfig();
             break;
@@ -113,9 +136,6 @@ function livelyPropertyListener(name, value) {
             break;
         case"colorOpacity":
             colorOpacity = value; colorConfig();
-            break;
-        case"color1":
-            color1 = value; colorConfig();
             break;
         case"palette1":
             pall[0] = value; colorConfig(); break; 
@@ -399,20 +419,21 @@ function bgPositionConfig(value) {
 
 function colorConfig() {
     let objIndex = -1;
-    let i = -1;
+    let i = -1, j = 0;
     const stepIncrease = (Math.floor(borderWidth / 10) * 2);
     const finalBWidth = borderWidth + (stepIncrease ** 1.5);
     document.body.style.setProperty('--borderThickness', `${finalBWidth}px`);
     
     mainClass.forEach(el => {
         i = (i + 1) % pall.length; 
+
         objIndex++;
         
         const opDecay = (1 / mainClass.length);
-        const finalOpacity = Math.max(colorOpacity - (objIndex * opDecay), 0);
+        const fadingOpacity = Math.max(colorOpacity - (objIndex * opDecay), 0);
 
         switch(colorMode){
-        case 1:  //! _ Palette
+        case 0:  //! _ Palette
             switch(fillMode){
             case 0: //? __ Fill
                 el.style.background = `${pall[i].substring(0, 7)}${opacityToHex(colorOpacity)}`;
@@ -426,15 +447,29 @@ function colorConfig() {
             }
         break;
 
-        case 0: //! _ Fade
+        case 1: //! _ Fade
             switch(fillMode){
             case 0: //? __ Fill
-                el.style.background = `${color1.substring(0, 7)}${opacityToHex(finalOpacity)}`;
+                el.style.background = `${pall[0].substring(0, 7)}${opacityToHex(fadingOpacity)}`;
                 el.style.border = ``;
                 break;
             case 1: //? __ Border
                 el.style.background = `none`;
-                el.style.border = `${finalBWidth}px solid ${color1.substring(0, 7)}${opacityToHex(finalOpacity)}`;
+                el.style.border = `${finalBWidth}px solid ${pall[0].substring(0, 7)}${opacityToHex(fadingOpacity)}`;
+                break;
+            default: break;
+            }
+        break;
+        
+        case 2: //! _ Gradient
+            switch(fillMode){
+            case 0: //? __ Fill
+                el.style.background = `${getGradient(pall[0], pall[1], j++, mainClass.length)}${opacityToHex(colorOpacity)}`;
+                el.style.border = ``;
+                break;
+            case 1: //? __ Border
+                el.style.background = `none`;
+                el.style.border = `${finalBWidth}px solid ${getGradient(pall[0], pall[1], j++, mainClass.length)}${opacityToHex(colorOpacity)}`;
                 break;
             default: break;
             }

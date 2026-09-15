@@ -47,8 +47,13 @@
         "step": 1,
         "value": 50
     },
+    "uniformDeg": {
+        "text": "Uniform Movement Degradation",
+        "type": "checkbox",
+        "value": false
+    },
     "elasticity": {
-        "text": "Elasticity (default: 25)",
+        "text": "Degradation Elasticity (default: 25)",
         "type": "slider",
         "min": 0,
         "max": 50,
@@ -123,8 +128,8 @@
     "colorMode": {
         "text": "Color Mode",
         "type": "dropdown",
-        "items": ["Fade", "Palette"],
-        "value": 1
+        "items": ["Palette", "Fade", "Gradient"],
+        "value": 0
     },
     "colorOpacity": {
         "text": "Color Opacity",
@@ -133,11 +138,6 @@
         "max": 1,
         "step": 0.01,
         "value": 1
-    },
-    "color1": {
-        "text": "Single Color - 1",
-        "type": "color",
-        "value": "#2a9c5da4"
     },
     "palette1": {
         "text": "Palette - Color 1",

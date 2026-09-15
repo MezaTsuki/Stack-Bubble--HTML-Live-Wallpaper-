@@ -3,7 +3,7 @@
  *      
  *      1. -
  *      2. -
- *      3. Uniform Movement Degradation Toggle
+ *      3. -
  *      4. Gradient Color Mode
  *      5. Foreground Image
  */
@@ -56,6 +56,8 @@ let panningZoom = 0.1;
 let allowXMovement = true;
 let allowYMovement = true;
 
+let uniformDeg = true;
+
 let play = null; let elapsedStop = 0;
 document.addEventListener("mousemove", e => {
 
@@ -73,8 +75,11 @@ document.addEventListener("mousemove", e => {
 
         setTimeout(() => { 
             const degAmount = startingDeg * mainClass.length;
-            let movementDeg = (0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))); 
-                if (movementDeg > 1) movementDeg = 1;
+            let movementDeg = uniformDeg ?
+                1 - (1/(mainClass.length + degAmount)) * (elasticity / 25) * (layer + degAmount) : 
+                0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))
+            ; 
+            if (movementDeg > 1) movementDeg = 1;
                 
             let newPosX = bubbleOriginX + ((mousePosX - bubbleOriginX) * movementDeg);
             let newPosY = bubbleOriginY + ((mousePosY - bubbleOriginY) * movementDeg);
@@ -82,8 +87,6 @@ document.addEventListener("mousemove", e => {
             if (allowYMovement) {el.style.top = `${newPosY}px`;}
         }, (layer * movementDelay))
     });
-
-    // setHoles(); 
 
     //! for animation --> <-- ^^^
     locatorX = mouseX;

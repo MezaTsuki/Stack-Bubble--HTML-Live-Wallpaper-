@@ -39,7 +39,7 @@ body{
     ;
 }
 
-.bgImage, .bgVideo, .objImage, .objVideo{
+.bgImage, .bgVideo, .objImage, .objVideo, .fgImage, .fgVideo{
     position: absolute;
     height: 100%; width: 100%;
     visibility: hidden;
@@ -54,6 +54,9 @@ body{
 }
 .objImage, .objVideo{
     transform: rotate(calc(var(--baseRotation) * -1));
+}
+.fgImage, .fgVideo{
+    z-index: 50;
 }
 
 @keyframes retribution-vertical{
