@@ -76,7 +76,7 @@ document.addEventListener("mousemove", e => {
         setTimeout(() => { 
             const degAmount = startingDeg * mainClass.length;
             let movementDeg = uniformDeg ?
-                1 - (1/(mainClass.length + degAmount)) * (elasticity / 25) * (layer + degAmount) : 
+                1 - (1/(mainClass.length + degAmount - 1)) * (elasticity / 25) * (layer + degAmount) : 
                 0.92 ** ((elasticity/(mainClass.length + degAmount)) * (layer + degAmount))
             ; 
             if (movementDeg > 1) movementDeg = 1;
